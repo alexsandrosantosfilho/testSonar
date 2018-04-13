@@ -1,0 +1,70 @@
+.background {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: red; /* For browsers that do not support gradients */    
+    background: -webkit-linear-gradient(left, #21272d, #2f3841, #21272d); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #21272d, #2f3841, #21272d); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #21272d, #2f3841, #21272d); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #21272d, #2f3841, #21272d); /* Standard syntax (must be last) */
+}
+
+.container {
+  h2 {
+    margin-top: 0 !important;
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 30px;
+    text-shadow: 1px 2px 4px #1a1f23;
+    font-size: 26px;
+  }
+}
+
+.text-error {
+  color: white;
+}
+
+.logo {
+    height: 150px;
+    display: table;
+    margin: 12% auto 0;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+
+  .form-signin-body {
+    margin-bottom: 30px;
+  }
+
+  .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  .form-control:focus {
+    z-index: 2;
+  }
+
+  input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+}

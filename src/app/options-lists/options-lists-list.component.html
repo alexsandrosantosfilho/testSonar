@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="row mb-40">
+		<div class="col-sm-12 col-md-12">
+			<h2>
+				<a [routerLink]="['/companies']" class="btn btn-link"><img src="../../assets/images/back.png" alt="Voltar"></a>
+        <small>{{ company?.name }} <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></small> Listas de opções				
+				<button routerLink="new" class="btn btn-outline-primary pull-right">
+					<span class="glyphicon glyphicon-plus"></span><span class="link-label">Adicionar lista de opções</span>
+				</button>
+			</h2>
+		</div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th class="w-30">Id</th>
+						<th class="w-50">Nome</th>
+						<th class="w-20"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr [hidden]="loading || optionsLists.length">
+						<td colspan="3" class="text-center">Nenhuma lista de opções encontrada.</td>
+					</tr>
+					<tr *ngFor="let optionsList of optionsLists">
+						<td>{{ optionsList.id }}</td>
+						<td>{{ optionsList.name }}</td>
+            <td class="text-right">
+              <span class="action">
+                <a [routerLink]="[optionsList.id, 'edit']" title="Editar" sgt2-tooltip>
+									<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+								</a>
+              </span>
+              <span class="action">
+                <a (click)="deleteOptionsList(optionsList)" title="Excluir" sgt2-tooltip>
+									<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+								</a>
+              </span>
+            </td>
+					</tr>
+				</tbody>
+			</table>
+    </div>
+  </div>
+</div>

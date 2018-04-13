@@ -1,0 +1,66 @@
+<form #uForm="ngForm" (submit)="onSubmit(uForm)" novalidate>
+  <div class="form-group">
+    <label>Login *</label>
+    <input *ngIf="!user" type="text" [(ngModel)]="data.login" (input)="onLoginExist()" name="login" class="form-control" required />
+    <p *ngIf="user" type="text" name="login" class="form-control-static">{{ data.login }}</p>
+  </div>
+  <div class="form-group">
+    <label>Nome *</label>
+    <input type="text" [(ngModel)]="data.name" name="name" class="form-control" required />
+  </div>
+  <div class="form-group">
+    <label>Email *</label>
+    <input type="text" placeholder="email@email.com" (input)="onEmailExist()" [(ngModel)]="data.email" name="email" class="form-control" required [pattern]="emailPattern" #offEmail="ngModel" />
+  </div>
+  <div *ngIf="editing">
+    <div *ngIf="user" class="checkbox">
+      <label>
+        <input type="checkbox" [(ngModel)]="resetPassword" name="resetPassword"> Definir nova senha
+      </label>
+    </div>
+    <div *ngIf="resetPassword">
+      <div class="form-group">
+        <label>Nova senha</label>
+        <input type="text" [(ngModel)]="data.password" name="password" class="form-control" required />
+      </div>
+      <div [hidden]="passwordLengthValid" class="text-danger">
+        A nova senha deve ter pelo menos 6 caracteres.
+      </div>
+      <div [hidden]="!validated || uForm.valid" class="text-danger">
+        O preenchimento do campo <strong>Nova senha</strong> é obrigatório.
+      </div>
+    </div>
+    <div [hidden]="!validated || uForm.valid" class="text-danger">
+      O preenchimento dos campos <strong>Nome</strong>, <strong>Email</strong> e <strong>Senha</strong> é obrigatório.
+    </div>
+    <div [hidden]="!loginExist" class="text-danger">
+      O Login <strong>{{ data.login }}</strong> já existe, por favor digite um diferente.
+    </div>
+    <div [hidden]="!emailExist" class="text-danger">
+      O Email <strong>{{ data.email }}</strong> já existe, por favor digite um diferente.
+    </div>
+  </div>
+  <div *ngIf="!editing">
+    <div class="form-group">
+      <label>Senha *</label>
+      <input type="text" [(ngModel)]="data.password" name="password" class="form-control" required />
+    </div>
+    <div [hidden]="passwordLengthValid" class="text-danger">
+      A senha deve ter pelo menos 6 caracteres.
+    </div>
+    <div [hidden]="!validated || uForm.valid" class="text-danger">
+      O preenchimento dos campos <strong>Login</strong>, <strong>Nome</strong>, <strong>Email</strong> e <strong>Senha</strong> é obrigatório.
+    </div>
+    <div [hidden]="!loginExist" class="text-danger">
+      O Login <strong>{{ data.login }}</strong> já existe, por favor digite um diferente.
+    </div>
+    <div [hidden]="!emailExist" class="text-danger">
+      O Email <strong>{{ data.email }}</strong> já existe, por favor digite um diferente.
+    </div>
+  </div>
+  <div class="mt-40">
+    <button type="submit" [disabled]="submiting" class="btn btn-primary mr-30">Salvar</button>
+    <button type="button" [disabled]="submiting" (click)="onCancel()" class="btn btn-default mr-30">Cancelar</button>
+    <span [hidden]="!submiting" class="loading-32"></span>
+  </div>
+</form>

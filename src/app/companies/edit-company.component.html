@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row mb-40">
+    <div class="col-sm-12 col-md-12">
+      <h2>
+        <a [routerLink]="['/companies']" class="btn btn-link"><img src="../../assets/images/back.png" alt="Voltar"></a>
+        <small>{{ company?.name }} <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></small> Editar empresa
+      </h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8 col-md-6">
+      <sgt2-company-form [company]="company" (save)="onSaveCompany($event)" (cancel)="onCancel()"></sgt2-company-form>
+    </div>
+  </div>
+</div>

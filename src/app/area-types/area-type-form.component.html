@@ -1,0 +1,52 @@
+<form #atForm="ngForm" (submit)="onSubmit(atForm)" novalidate>
+  <div class="col-sm-8 col-md-6">
+    <div class="form-group">
+      <label>Nome</label>
+      <input type="text" [(ngModel)]="data.name" name="name" class="form-control" required />
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-12">
+    <sgt2-dynamic-form-config (fieldsChange)="onFieldsChange($event)" formTitle="Formulário para cadastro de área" [fields]="fields" [externalFields]="externalFields" ></sgt2-dynamic-form-config>
+  </div>
+  <div class="col-sm-12 col-md-12">
+    <h3>
+      Configuração do repositório de anexos da área
+      <button (click)="addFolder()" type="button" class="btn btn-link pull-right"><span class="glyphicon glyphicon-plus"></span> Adicionar diretório</button>
+    </h3>
+    <div class="row mb-40 mt-40">
+      <div class="col-sm-12 col-md-12">
+        <div [hidden]="folders.length" class="text-center style-list">Lista vazia</div>
+        <ul *ngFor="let folder of folders" class="style-list">
+          <li>
+            <span (click)="folder.opened=!folder.opened" class="folder">
+              <span *ngIf="!folder.opened" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+              <span *ngIf="folder.opened" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+              {{ folder.name }}
+            </span>
+            <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="deleteFolder(folder)" title="Excluir" sgt2-tooltip><span class="glyphicon glyphicon-trash"></span></button>
+            <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="editFolder(folder)" title="Editar" sgt2-tooltip><span class="glyphicon glyphicon-edit"></span></button>
+            <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="addFolder(folder)" title="Adicionar subdiretório" sgt2-tooltip><span class="glyphicon glyphicon-plus"></span></button>
+            <ul [hidden]="!folder.opened" *ngFor="let subFolder of folder.children" class="sub-folders">
+              <li>
+                {{ subFolder.name }}
+                <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="deleteFolder(subFolder, folder)" title="Excluir" sgt2-tooltip><span class="glyphicon glyphicon-trash"></span></button>
+                <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="editFolder(subFolder)" title="Editar" sgt2-tooltip><span class="glyphicon glyphicon-edit"></span></button>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-12">
+    <div [hidden]="!validated || atForm.valid" class="text-danger">
+      O preenchimento do campo <strong>Nome</strong> é obrigatório.
+    </div>
+    <div class="mt-10 mb-40">
+      <button type="submit" [disabled]="submiting" class="btn btn-primary mr-30">Salvar</button>
+      <button type="button" [disabled]="submiting" (click)="onCancel()" class="btn btn-default mr-30">Cancelar</button>
+      <span [hidden]="!submiting" class="loading-32"></span>
+    </div>
+  </div>
+</form>
+<sgt2-folder-form (create)="onSaveFolder($event)" (update)="onUpdateFolder($event)" #folderForm></sgt2-folder-form>

@@ -1,0 +1,24 @@
+<div class="background">
+  <div class="container">
+    <img class="logo" alt="SGT2" src="../../assets/images/SGT2_BACKOFFICE.png">
+    <h2>SUPORTE</h2>
+    <form #signinForm="ngForm" (ngSubmit)="login(signinForm)" class="form-signin" novalidate>
+      <div class="form-signin-body">
+        <label class="sr-only">Email</label>
+        <input [(ngModel)]="data.login" name="login" type="login" class="form-control" placeholder="Login" required autofocus>
+        <label class="sr-only">Senha</label>
+        <input [(ngModel)]="data.password" name="password" type="password" class="form-control" placeholder="Senha" required>
+      </div>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Enviar</button>
+      <div [hidden]="!validateForm" class="text-error text-center pt-10">
+        O preenchimento dos campos <strong>Email</strong> e <strong>Senha</strong> é obrigatório.
+      </div>
+      <div [hidden]="!unauthorizedUser" class="text-error text-center pt-10">
+        Este usuário não tem autorização ao suporte.
+      </div>
+      <div [hidden]="!errorMessage" class="text-error text-center pt-10">
+        Não foi possível realizar o login. Verifique se o formulário foi preenchido corretamente.
+      </div>
+    </form>
+  </div> <!-- /container -->
+</div>

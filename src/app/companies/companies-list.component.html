@@ -1,0 +1,66 @@
+<div class="container">
+  <div class="row mb-40">
+		<div class="col-sm-12 col-md-12">
+			<h2>Empresas
+				<button routerLink="new" class="btn btn-outline-primary pull-right">
+					<span class="glyphicon glyphicon-plus"></span><span class="link-label">Adicionar empresa</span>
+				</button>
+			</h2>
+		</div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th class="w-30">Id</th>
+						<th>Nome</th>
+						<th class="w-20"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr [hidden]="loading || companies.length">
+						<td colspan="3" class="text-center">Nenhuma empresa encontrada.</td>
+					</tr>
+					<tr *ngFor="let company of companies">
+						<td class="company-id">{{ company.id }}</td>
+						<td>{{ company.name }}</td>
+            <td class="text-right">
+							<span class="action">
+								<a [routerLink]="[company.id, 'users']" title="Usuários" sgt2-tooltip>
+									<span class="glyphicon glyphicon-user" aria-hidden="true"></span>									
+								</a>
+        			</span>
+							<span class="action">
+								<a [routerLink]="[company.id, 'area-types']" title="Tipos de áreas" sgt2-tooltip>
+									<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+								</a>
+              </span>
+							<span class="action">
+								<a [routerLink]="[company.id, 'modules']" title="Módulos" sgt2-tooltip>
+									<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+								</a>
+              </span>
+							<span class="action">
+								<a [routerLink]="[company.id, 'options-lists']" title="Listas de opções" sgt2-tooltip>
+									<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+								</a>
+              </span>
+              <span class="action">
+                <a [routerLink]="[company.id, 'edit']" title="Editar" sgt2-tooltip>
+									<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+								</a>
+              </span>
+              <span class="action">
+                <a (click)="deleteCompany(company)" class="cursor-pointer" title="Excluir" sgt2-tooltip>
+									<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+								</a>
+              </span>
+            </td>
+					</tr>
+				</tbody>
+			</table>
+    </div>
+  </div>
+</div>
+<sgt2-strong-confirmation-modal (confirm)="onConfirmDelete($event)" #strongConfirmationModal></sgt2-strong-confirmation-modal>

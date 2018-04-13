@@ -1,0 +1,53 @@
+<form #oForm="ngForm" (submit)="onSubmit(oForm)" novalidate>
+  <div class="col-sm-8 col-md-6">
+    <div class="form-group">
+      <label>Nome</label>
+      <input type="text" [(ngModel)]="data.name" name="name" class="form-control" required />
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-12">
+    <div class="form-group">
+      <h3>
+        Opções
+        <button type="button" (click)="addOption()" class="btn btn-link pull-right"><span class="glyphicon glyphicon-plus"></span> Adicionar opção</button>
+      </h3>
+      <div class="row mb-40 mt-40">
+        <div class="col-sm-12 col-md-12">
+          <table class="table table-striped table-condensed">
+            <thead>
+              <tr>
+                <th class="w-40">Valor</th>
+                <th class="w-40">Label</th>
+                <th class="w-20"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr [hidden]="options.length">
+                <td colspan="3" class="text-center">Lista vazia.</td>
+              </tr>
+              <tr *ngFor="let option of options">
+                <td>{{ option.value }}</td>
+                <td>{{ option.label }}</td>
+                <td>
+                    <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="deleteOption(option)" title="Excluir" sgt2-tooltip><span class="glyphicon glyphicon-trash"></span></button>
+                    <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="editOption(option)" title="Editar" sgt2-tooltip><span class="glyphicon glyphicon-edit"></span></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-12">
+    <div [hidden]="!validated || (options.length && oForm.valid)" class="text-danger">
+      O preenchimento do campo <strong>Nome</strong> e <strong>Opções</strong> é obrigatório.
+    </div>
+    <div class="mt-40 mb-40">
+      <button type="submit" [disabled]="submiting" class="btn btn-primary mr-30">Salvar</button>
+      <button type="button" [disabled]="submiting" (click)="onCancel()" class="btn btn-default mr-30">Cancelar</button>
+      <span [hidden]="!submiting" class="loading-32"></span>
+    </div>
+  </div>
+</form>
+<sgt2-option-form (optionSave)="onSaveOption($event)" (optionUpdate)="onUpdateOption($event)" #optionForm></sgt2-option-form>

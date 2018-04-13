@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row mb-40">
+    <div class="col-sm-12 col-md-12">
+      <h2>
+        <a (click)="onCancel()" class="btn btn-link"><img src="../../assets/images/back.png" alt="Voltar"></a>
+        <small>{{ company?.name }} <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></small> Editar lista de opções
+      </h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <sgt2-options-list-form [companyId]="companyId" [optionsList]="optionsList" (save)="onSaveOptionsList($event)" (cancel)="onCancel()"></sgt2-options-list-form>
+    </div>
+  </div>
+</div>

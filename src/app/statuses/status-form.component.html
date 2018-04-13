@@ -1,0 +1,34 @@
+<form #sForm="ngForm" (submit)="onSubmit(sForm)" novalidate>
+  <div class="form-group">
+    <label>Nome</label>
+    <input type="text" [(ngModel)]="data.name" name="name" class="form-control" required />
+  </div>
+  <div *ngIf="editing" class="form-group">
+    <label>Imagem</label><br/>
+    <div *ngIf="iconUrl" class="icon-bg">
+      <button type="button" class="close" aria-label="Close" (click)="removeIcon()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <img [src]="iconUrl" alt="Ícone" />
+    </div>
+    <div *ngIf="!iconUrl">
+      <button type="button" (click)="browseFile()" class="btn btn-link">
+        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Selecionar imagem ({{ allowedExtensions.join(' | ') }})
+      </button>
+      <span [hidden]="!submitingImg" class="loading-32"></span>
+      <p class="help-block">Selecione uma imagem que será utilizada como ícone dos empreendimentos associados a este status.</p>
+    </div>
+    <span [hidden]="true">
+      <input #fileInput type="file" (change)="onImageChange($event)" />
+    </span>
+  </div>
+  <div [hidden]="!validated || sForm.valid" class="text-danger">
+    O preenchimento do campo <strong>Nome</strong> é obrigatório.
+  </div>
+  <div [hidden]="imageValid" class="text-danger">{{ imageValidationMessage }}</div>
+   <div class="mt-40">
+    <button type="submit" [disabled]="submiting" class="btn btn-primary mr-30">Salvar</button>
+    <button type="button" [disabled]="submiting" (click)="onCancel()" class="btn btn-default mr-30">Cancelar</button>
+    <span [hidden]="!submiting" class="loading-32"></span>
+  </div>
+</form>

@@ -1,0 +1,27 @@
+<form #mForm="ngForm" (submit)="onSubmit(mForm)" novalidate>
+  <div class="col-sm-8 col-md-6">
+    <div class="form-group">
+      <label>Nome</label>
+      <input type="text" [(ngModel)]="module.label" name="title" class="form-control" required />
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" name="enabled" [(ngModel)]="module.enabled" /> Habilitado
+      </label>
+    </div>
+  </div>
+  <div *ngIf="module.id == 'insp'" class="col-sm-12 col-md-12">
+    <sgt2-inspection-module-form (moduleChange)="onModuleChange($event)" [module]="module"></sgt2-inspection-module-form>
+  </div>
+  <div class="col-sm-12 col-md-12">
+    <div [hidden]="!validated || mForm.valid" class="text-danger">
+      O preenchimento do campo <strong>Nome</strong> é obrigatório.
+    </div>
+
+    <div class="mt-40 mb-40">
+      <button type="submit" [disabled]="submiting" class="btn btn-primary mr-30">Salvar</button>
+      <button type="button" [disabled]="submiting" (click)="onCancel()" class="btn btn-default mr-30">Cancelar</button>
+      <span [hidden]="!submiting" class="loading-32"></span>
+    </div>
+  </div>
+</form>

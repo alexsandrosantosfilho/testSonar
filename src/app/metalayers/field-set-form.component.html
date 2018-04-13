@@ -1,0 +1,78 @@
+<div class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <form #fsForm="ngForm" (submit)="onSubmit(fsForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Editar grupo</h4>
+        </div>
+        <div class="modal-body" >
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <div class="row">
+                <div class="form-group col-sm-8 col-md-8">
+                  <label>Nome</label>
+                  <input type="text" name="name" [(ngModel)]="data.name" class="form-control" required />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-sm-8 col-md-8">
+                  <label>Alias</label>
+                  <input type="text" name="alias" [(ngModel)]="data.alias" class="form-control" required />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-4 col-sm-4">
+                  <label>Ordem</label>
+                  <input type="number" name="order" min="0" [(ngModel)]="data.order" class="form-control" required />
+                </div>
+              </div>
+              <div class="row">
+                <div [hidden]="!validated || fsForm.valid" class="text-danger col-md-12 col-sm-12">
+                  O preenchimento do campo <strong>Nome</strong>, <strong>Alias</strong> e <strong>Ordem</strong> é obrigatório.
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <h4>
+            Campos
+          </h4>
+          <div class="row mb-40 mt-40">
+            <div class="col-sm-12 col-md-12">
+              <table class="table table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th class="w-40">Nome</th>
+                    <th class="w-30">Alias</th>
+                    <th class="w-10">Ordem</th>
+                    <th class="w-20 text-center">Visível</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr [hidden]="data.fields.length">
+                    <td colspan="4" class="text-center">Lista vazia.</td>
+                  </tr>
+                  <tr *ngFor="let field of data.fields">
+                    <td>{{ field.name }}</td>
+                    <td>{{ field.alias }}</td>
+                    <td class="text-center">
+                      <input type="number" [(ngModel)]="field.order" min="0" name="order" class="form-control input-sm" />
+                    </td>
+                    <td class="text-center">
+                      <input type="checkbox" name="visible" [(ngModel)]="field.visible" />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

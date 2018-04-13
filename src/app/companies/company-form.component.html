@@ -1,0 +1,72 @@
+<form #cForm="ngForm" (submit)="onSubmit(cForm)" novalidate>
+  <div class="form-group">
+    <label>Identificador</label>
+    <p *ngIf="company" class="form-control-static">{{ data.id }}</p>
+    <input *ngIf="!company" type="text" [(ngModel)]="data.id" name="id" (input)="onIdExist()" class="form-control id" required />
+  </div>
+  <div class="form-group">
+    <label>Nome</label>
+    <input type="text" [(ngModel)]="data.name" name="name" class="form-control" required />
+  </div>
+  <div class="form-group">
+    <label>Gráficos</label>
+    <input type="text" [(ngModel)]="charts" name="charts" class="form-control" />
+  </div>
+ <div class="form-group">
+    <input type="checkbox" name="visible" [(ngModel)]="data.geoserver" />   
+    <label> Geoserver</label>
+</div>
+  <div *ngIf="editing" class="form-group">
+    <label>Logo</label>
+    <div *ngIf="logoUrl" class="logo-bg logo">
+      <button type="button" class="close" aria-label="Close" (click)="removeLogo()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <img [src]="logoUrl" class="logo-image" alt="Logotipo" />
+    </div>
+    <div *ngIf="!logoUrl">
+      <button type="button" (click)="browseFile()" class="btn btn-link upload-image-btn">
+        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Selecionar imagem ({{ allowedExtensions.join(' | ') }})
+      </button>
+      <span [hidden]="!submitingLogo" class="loading-32"></span>
+      <p class="help-block">Selecione uma imagem que será utilizada como logo da empresa no cabeçalho da aplicação.</p>
+    </div>
+    <span [hidden]="true">
+      <input #fileInput type="file" (change)="onImageChange($event)" />
+    </span>
+  </div>
+  <div *ngIf="editing" class="form-group">
+    <label>Logo de relatórios</label>
+    <div *ngIf="logoReportUrl" class="logo-bg logo-report">
+      <button type="button" class="close" aria-label="Close" (click)="removeReportLogo()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <img [src]="logoReportUrl" class="logo-image" alt="Logotipo" />
+    </div>
+    <div *ngIf="!logoReportUrl">
+      <button type="button" (click)="browseReportFile()" class="btn btn-link upload-image-btn">
+        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Selecionar imagem ({{ allowedExtensions.join(' | ') }})
+      </button>
+      <span [hidden]="!submitingLogoRp" class="loading-32"></span>
+      <p class="help-block">Selecione uma imagem que será utilizada como logo no cabeçalho dos relatórios do sistema.</p>
+    </div>
+    <span [hidden]="true">
+      <input #fileReportInput type="file" (change)="onImageReportChange($event)" />
+    </span>
+  </div>
+  <div [hidden]="!validated || cForm.valid" class="text-danger">
+    O preenchimento dos campos <strong>Identificador</strong> e <strong>Nome</strong> é obrigatório.
+  </div>
+  <div [hidden]="!idExist" class="text-danger">
+    O ID <strong>{{ data.id }}</strong> já existe, por favor digite um diferente.
+  </div>
+  <div [hidden]="idLengthValid" class="text-danger">
+    Por favor digite no mínimo 2 caracteres no campo <strong>Identificador</strong>.
+  </div>
+  <div [hidden]="imageValid" class="text-danger">{{ imageValidationMessage }}</div>
+  <div class="mt-40">
+    <button type="submit" [disabled]="submiting" class="btn btn-primary mr-30">Salvar</button>
+    <button type="button" [disabled]="submiting" (click)="onCancel()" class="btn btn-default mr-30">Cancelar</button>
+    <span [hidden]="!submiting" class="loading-32"></span>
+  </div>
+</form>

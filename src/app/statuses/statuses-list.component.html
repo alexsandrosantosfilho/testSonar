@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="row mb-40">
+		<div class="col-sm-12 col-md-12">
+      <h2>
+        <a (click)="onCancel()" class="btn btn-link"><img src="../../assets/images/back.png" alt="Voltar"></a>
+        <small>
+					{{ company?.name }}  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+					{{ areaType?.name }} <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				</small> Status
+        <a routerLink="new" class="btn btn-outline-primary pull-right">
+	         <span class="glyphicon glyphicon-plus"></span><span class="link-label">Adicionar status</span>
+	    	</a>
+      </h2>
+    </div>
+  </div>
+	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Imagem</th>
+						<th class="w-60 vertical-middle">Nome</th>
+						<th class="w-20"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr [hidden]="loading || statuses.length">
+						<td colspan="3" class="text-center">Nenhum status encontrado.</td>
+					</tr>
+					<tr *ngFor="let status of statuses">
+						<td>
+							<img *ngIf="status.icon" [src]="status.icon?.url" alt="" />
+						</td>
+						<td class="status-name">{{ status.name }}</td>
+						<td class="w-15 text-right">
+							<span class="action">
+								<a [routerLink]="[status.id, 'edit']" title="Editar" sgt2-tooltip>
+									<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+								</a>
+							</span>
+							<span class="action">
+								<a (click)="deleteStatus(status)" title="Excluir" sgt2-tooltip>
+									<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+								</a>
+							</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

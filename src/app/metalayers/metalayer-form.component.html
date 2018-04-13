@@ -1,0 +1,329 @@
+<!--<button type="button" *ngIf="!configXML" (click)="configsXML(true)" class="btn btn-link pl-0 mb-10">Configurar via XML</button>
+<button type="button" *ngIf="configXML" (click)="configsXML(false)" class="btn btn-link pl-0 mb-10">Configurar via Formulário</button>-->
+
+<form #mForm="ngForm" (submit)="onSubmit(mForm)" novalidate>
+  <div *ngIf="!configXML">
+    <div class="row">
+      <div class="col-sm-8 col-md-6">
+        <div class="form-group">
+          <label>Nome</label>
+          <input type="text" [(ngModel)]="data.name" name="name" class="form-control" required />
+        </div>
+        <div class="form-group">
+          <label>Categoria</label>
+          <input type="text" [(ngModel)]="data.category" name="category" class="form-control" required />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 col-md-2">
+        <div class="form-group">
+          <label>Ordem</label>
+          <input type="number" [(ngModel)]="data.order" name="order" class="form-control" required />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 col-md-2">
+        <div class="form-group">
+          <label>Raio de busca</label>
+          <input type="number" [(ngModel)]="data.radius" name="radius" class="form-control" required />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 col-md-2">
+        <div class="form-group">
+          <label>Opacidade</label>
+          <input type="text" [(ngModel)]="data.opacity" min="0" max="1" name="opacity" class="form-control" required />
+        </div>
+      </div>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" name="enabled" [(ngModel)]="data.enable" /> Habilitada
+      </label>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" name="visible" [(ngModel)]="data.visible" /> Visível
+      </label>
+    </div>
+    <hr class="mb-40 mt-40">
+    <h3 class="mb-30">Dados do serviço de mapa</h3>
+    <div *ngIf="!metalayer" class="row">
+      <div class="form-group">
+        <div class="col-sm-3 col-md-3">
+          <label>Tipo de serviço</label>
+          <!--<p class="form-control-static">Arcgis Server</p>-->
+          <select class="form-control" [(ngModel)]="serviceType" name="service-type">
+            <option value="arcgis">Arcgis Server</option>
+            <option value="geo">Geo Server</option>
+          </select>
+        </div>
+        <div class="col-sm-7 col-md-7">
+          <label>Serviço de mapa</label>
+          <input type="text" [(ngModel)]="mapServiceUrl" name="serviceUrl" class="form-control w-100"/>
+        </div>
+        <div class="col-sm-2 col-md-2 pt-24">
+          <button type="button" (click)="loadMapServiceInfo()" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Carregar</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="layers.length">
+      <label class="mt-30" >Camada</label>
+      <select [ngModel]="layerName" (ngModelChange)="onLayerChange($event)" name="selectName" class="form-control input-sm w-50">
+        <option *ngFor="let layer of layers" [value]="layer.name">{{ layer.name }}</option>
+      </select>
+    </div>
+    <div *ngIf="fields.length">
+      <div class="row text-right mt-30">
+        <button *ngIf="!onlyVisible" type="button" (click)="filterFields(true)" class="btn btn-link">Esconder não visíveis</button>
+        <button *ngIf="onlyVisible" type="button" (click)="filterFields(false)" class="btn btn-link">Mostrar todos</button>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th class="w-20">Nome</th>
+                <th class="w-20">Alias</th>
+                <th class="w-20">Tipo</th>
+                <th class="w-10">Precisão</th>
+                <th class="w-10 text-center">Editável</th>
+                <th class="w-10 text-center">Visível</th>
+                <th class="w-10 text-center">ID</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let field of filteredFields">
+                <td>
+                  {{ field.name }}
+                </td>
+                <td>
+                  <input class="form-control input-sm" type="text" name="{{ field.name }}Alias" [(ngModel)]="field.alias" placeholder="Alias" />
+                </td>
+                <td>
+                  <button *ngIf="field.type == 'choose'" (click)="editFieldOptions(field)" type="button" class="pull-right btn btn-link btn-sm"><span class="glyphicon glyphicon-pencil"></span></button>
+                  <select class="form-control input-sm w-80" name="{{ field.name }}Type" [(ngModel)]="field.type">
+                    <option value="text">Texto</option>
+                    <option value="date">Data</option>
+                    <option value="datetime">Data e hora</option>
+                    <option value="number">Número</option>
+                    <option value="monetary">Moeda</option>
+                    <option value="choose">Escolha</option>
+                  </select>
+                </td>
+                <td class="text-center">
+                  <label>
+                    <input *ngIf="field.type == 'number' || field.type == 'monetary' "  type="number" min="0" name="{{ field.name }}Precision" [(ngModel)]="field.precision" class="form-control input-sm" />
+                    <input *ngIf="!(field.type == 'number' || field.type == 'monetary')" type="number" min="0" name="{{ field.name }}Precision" [(ngModel)]="field.precision" class="form-control input-sm" disabled/>
+                  </label>
+                </td>
+                <td class="text-center">
+                  <label>
+                    <input type="checkbox" name="{{ field.name }}Editable" [(ngModel)]="field.editable" />
+                  </label>
+                </td>
+                <td class="text-center">
+                  <label>
+                    <input type="checkbox" name="{{ field.name }}Visible" [ngModel]="field.visible" (ngModelChange)="updateVisible($event, field)" />
+                  </label>
+                </td>
+                <td class="text-center">
+                  <label>
+                    <input type="radio" name="fid" [value]="field.name" [ngModel]="fidName" (ngModelChange)="updateFid($event, field)" />
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row text-right">
+        <button *ngIf="!onlyVisible" type="button" (click)="filterFields(true)" class="btn btn-link">Esconder não visíveis</button>
+        <button *ngIf="onlyVisible" type="button" (click)="filterFields(false)" class="btn btn-link">Mostrar todos</button>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="pb-20 col-sm-12 col-md-12">
+          <h3>
+            Grupos de campos
+            <button type="button" (click)="addFieldSet()" class="btn btn-link pull-right">
+              <span class="glyphicon glyphicon-plus"></span><span class="link-label">Adicionar grupo</span>
+            </button>
+          </h3>
+        </div>
+      </div>
+      <div class="row mb-40 mt-40">
+        <div class="col-sm-12 col-md-12">
+          <table class="table table-striped table-condensed">
+            <thead>
+              <tr>
+                <th class="w-30">Nome</th>
+                <th class="w-30">Alias</th>
+                <th class="w-30">Order</th>
+                <th class="w-10"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr [hidden]="fieldSets.length">
+                <td colspan="4" class="text-center">Lista vazia.</td>
+              </tr>
+              <tr *ngFor="let fieldSet of fieldSets">
+                <td>{{ fieldSet.name }}</td>
+                <td>{{ fieldSet.alias }}</td>
+                <td>{{ fieldSet.order }}</td>
+                <td>
+                    <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="removeFieldSet(fieldSet)"><span class="glyphicon glyphicon-trash"></span></button>
+                    <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="editFieldSet(fieldSet)"><span class="glyphicon glyphicon-pencil"></span></button>
+                    <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="configRules(fieldSet)" title="Regras" sgt2-tooltip><span class="glyphicon glyphicon-list-alt"></span></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <hr>
+      <div class="row">    
+        <div class="col-sm-12 col-md-12">
+          <h3>
+            Repositório de Arquivos
+            <button (click)="addRepository()" type="button" class="btn btn-link pull-right"><span class="glyphicon glyphicon-plus"></span> Adicionar repositório</button>
+          </h3>
+        </div>
+      </div>
+      <div class="row mb-40 mt-40">
+        <div class="col-sm-12 col-md-12">
+          <table class="table table-striped table-condensed">
+            <thead>
+              <tr>
+                <th class="w-20">Nome</th>
+                <th class="w-20">Alias</th>
+                <th class="w-20">Tipo</th>
+                <th class="w-30">URL</th>
+                <th class="w-10"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr [hidden]="repositories.length">
+                <td colspan="5" class="text-center">Lista vazia.</td>
+              </tr>
+              <tr *ngFor="let repository of repositories">
+                <td>{{ repository.name }}</td>
+                <td>{{ repository.alias }}</td>
+                <td>{{ repository.type }}</td>
+                <td>{{ repository.source }}</td>
+                <td>
+                    <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="deleteRepository(repository)"><span class="glyphicon glyphicon-trash"></span></button>
+                    <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="editRepository(repository)"><span class="glyphicon glyphicon-pencil"></span></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div [hidden]="!validated || mForm.valid" class="text-danger">
+        O preenchimento dos campos <strong>Nome</strong>, <strong>Categoria</strong> e <strong>Ordem</strong> são obrigatórios.
+      </div>
+    </div>
+    <!--<hr class="mb-40 mt-40">
+    <h3 class="mb-30">Outras fontes de dados</h3>
+    <form #otForm="ngForm" (submit)="onSubmitDataSource(otForm)" novalidate>
+      <div class="row">
+        <div class="col-sm-8 col-md-6">
+          <div class="form-group">
+            <label>Nome</label>
+            <input type="text" name="data-source-name" [(ngModel)]="dataSource.name" class="form-control" required />
+          </div>
+            <div class="form-group">
+            <label>Alias</label>
+            <input type="text" name="data-source-alias" [(ngModel)]="dataSource.alias" class="form-control" required />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 col-md-3">
+          <div class="form-group">
+            <label>Tipo</label>
+            <select class="form-control" [(ngModel)]="dataSource.type" name="data-source-type">
+              <option value="unum">UNUM</option>
+              <option value="groupattr">Group Attribute</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-8 col-md-6">
+          <div class="form-group">
+            <label>URL</label>
+            <input type="text" name="data-source-url" [(ngModel)]="dataSource.url" class="form-control" required />
+          </div>
+        </div>
+      </div>
+      <div class="mb-30 mt-20">
+        <button type="submit" class="btn btn-success">Adicionar</button>
+      </div>
+    </form>
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <table class="table table-striped table-condensed">
+          <thead>
+            <tr>
+              <th class="w-20">Nome</th>
+              <th class="w-20">Alias</th>
+              <th class="w-30">Tipo</th>
+              <th class="w-30">URL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr [hidden]="loading || dataSources.length">
+              <td colspan="4" class="text-center">Lista vazia.</td>
+            </tr>
+            <tr *ngFor="let dataSource of dataSources">
+              <td>
+                {{ dataSource.name }}
+              </td>
+              <td>
+                {{ dataSource.alias }}
+              </td>
+              <td>
+                {{ dataSource.type }}
+              </td>
+              <td>
+                {{ dataSource.url }}
+              </td>
+              <td>
+                  <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="deleteDataSource(dataSource)"><span class="glyphicon glyphicon-trash"></span></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>-->
+  </div>
+  <div *ngIf="configXML">
+    <div class="form-group">
+      <label>Configurações</label>
+      <textarea [(ngModel)]="data.settings" name="settings" class="form-control" rows="20" required></textarea>
+    </div>
+    <div [hidden]="!validated || mForm.valid" class="text-danger">
+      O preenchimento do campo <strong>Configurações</strong> é obrigatório.
+    </div>
+    <div [hidden]="!fidValid" class="text-danger">
+      É necessário definir um dos campos como ID.
+    </div>
+    <div [hidden]="!validated || xmlValid" class="text-danger">
+      XML inválido.
+    </div>
+  </div>
+  <div class="mt-40 mb-40">
+    <button type="submit" [disabled]="submiting" class="btn btn-primary mr-30">Salvar</button>
+    <button type="button" [disabled]="submiting" (click)="onCancel()" class="btn btn-default mr-30">Cancelar</button>
+    <span [hidden]="!submiting" class="loading-32"></span>
+  </div>
+</form>
+<sgt2-repository-form (create)="onSaveRepository($event)" (update)="onUpdateRepository($event)" (cancel)="onCancelRepository()" #repositoryForm></sgt2-repository-form>
+<sgt2-field-resources-form #fieldResourcesForm></sgt2-field-resources-form>
+<sgt2-field-set-form [visibleFields]="visibleFields" (create)="onSaveFieldSet($event)" (update)="onUpdateFieldSet($event)" (cancel)="onCancelFieldSet()" #fieldSetForm></sgt2-field-set-form>
+<sgt2-field-rules-form (rulesChange)="onRulesChange($event)" [fields]="fields" #fieldRulesForm></sgt2-field-rules-form>

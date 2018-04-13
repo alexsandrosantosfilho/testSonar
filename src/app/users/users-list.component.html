@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="row mb-40">
+    <div class="col-sm-12 col-md-12">
+      <h2>
+        <a [routerLink]="['/companies']" class="btn btn-link"><img src="../../assets/images/back.png" alt="Voltar"></a>
+        <small>{{ company?.name }} <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></small> Usuários
+        <a routerLink="new" class="btn btn-outline-primary pull-right">
+					<span class="glyphicon glyphicon-plus"></span><span class="link-label">Adicionar usuário</span>
+				</a>
+      </h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+            <th class="w-25">Login</th>
+            <th class="w-25">Nome</th>
+            <th class="w-30">Email</th>
+						<th class="w-20"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr [hidden]="loading || users.length">
+						<td colspan="5" class="text-center">Nenhum usuário encontrado.</td>
+					</tr>
+					<tr *ngFor="let user of users">
+            <td>{{ user.login }}</td>
+						<td>{{ user.name }}</td>
+						<td>{{ user.email }}</td>
+            <td class="text-right">
+              <span class="action">
+                <a [routerLink]="[user.id, 'edit']" title="Editar" sgt2-tooltip>
+									<i class="glyphicon glyphicon-edit" aria-hidden="true"></i>
+								</a>
+              </span>
+              <span *ngIf="!user.root" class="action">
+                <a (click)="deleteUser(user)" title="Excluir" sgt2-tooltip>
+									<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+								</a>
+              </span>
+            </td>
+					</tr>
+				</tbody>
+			</table>
+    </div>
+  </div>
+</div>

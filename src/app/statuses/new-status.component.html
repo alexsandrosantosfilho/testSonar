@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row mb-40w">
+    <div class="col-sm-12 col-md-12">
+      <h2>
+         <a (click)="onCancel()" class="btn btn-link"><img src="../../assets/images/back.png" alt="Voltar"></a>
+				<small>
+					{{ company?.name }}  <i class="glyphicon glyphicon-chevron-right" aria-hidden="true"></i>
+					{{ areaType?.name }} <i class="glyphicon glyphicon-chevron-right" aria-hidden="true"></i>
+				</small> Criar novo status
+			</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8 col-md-6">
+      <sgt2-status-form [companyId]="company?.id" [areaTypeId]="areaType?.id" [status]="status" (save)="onSaveStatus($event)" (cancel)="onCancel()"></sgt2-status-form>
+    </div>
+  </div>
+  <div [hidden]="!validated" class="text-danger">
+      O preenchimento do campo <strong>Nome</strong> é obrigatório.
+    </div>
+</div>

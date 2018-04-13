@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="row mb-40">
+		<div class="col-sm-12 col-md-12">
+      <h2>
+        <a (click)="onCancel()" class="btn btn-link"><img src="../../assets/images/back.png" alt="Voltar"></a>
+        <small>
+					{{ company?.name }}  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+					{{ areaType?.name }} <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				</small> Meta camadas
+        <a routerLink="new" class="btn btn-outline-primary pull-right">
+	         <span class="glyphicon glyphicon-plus"></span><span class="link-label">Adicionar meta camada</span>
+	    	</a>
+      </h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th>Categoria</th>
+						<th class="text-center w-10">Ordem</th>
+						<th class="text-center w-10">Habilitada</th>
+						<th class="text-center w-10">Visível</th>
+						<th class="w-20"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr [hidden]="loading || metalayers.length">
+						<td colspan="6" class="text-center">Nenhuma meta camada encontrada.</td>
+					</tr>
+					<tr *ngFor="let metalayer of metalayers">
+						<td>{{ metalayer.name }}</td>
+						<td>{{ metalayer.category }}</td>
+						<td class="text-center w-10">{{ metalayer.order }}</td>
+						<td class="text-center w-10">
+							<span *ngIf="metalayer.enabled" class="text-success glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</td>
+						<td class="text-center w-10">
+							<span *ngIf="metalayer.visible" class="text-success glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</td>
+            <td class="text-right w-20">
+              <span class="action">
+                <a [routerLink]="[metalayer.id, 'edit']" title="Editar" sgt2-tooltip>
+									<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+								</a>
+              </span>
+              <span class="action">
+                <a (click)="deleteMetalayer(metalayer)" title="Excluir" sgt2-tooltip>
+									<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+								</a>
+              </span>
+            </td>
+					</tr>
+				</tbody>
+			</table>
+    </div>
+  </div>
+</div>

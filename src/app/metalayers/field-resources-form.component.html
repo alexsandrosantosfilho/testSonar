@@ -1,0 +1,58 @@
+<div class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Escolha</h4>
+      </div>
+      <div class="modal-body" >
+        <form #oForm="ngForm" (submit)="onSubmit(oForm)" novalidate>
+          <div class="form-group">
+            <label>Valor</label>
+            <input type="text" name="value" [(ngModel)]="optionValue" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Label</label>
+            <input type="text" name="label" [(ngModel)]="optionLabel" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-success">Adicionar</button>
+          </div>
+          <div [hidden]="!validated || oForm.valid" class="text-danger">
+            O preenchimento dos campos <strong>Valor </strong>e <strong>Label</strong> é obrigatório.
+          </div>
+        </form>
+        <hr>
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <table class="table table-striped table-condensed">
+              <thead>
+                <tr>
+                  <th class="w-40">Valor</th>
+                  <th class="w-40">Label</th>
+                  <th class="w-20"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr [hidden]="options.length">
+						      <td colspan="3" class="text-center">Lista vazia.</td>
+					      </tr>
+                <tr *ngFor="let option of options">
+                  <td>{{ option.value }}</td>
+                  <td>{{ option.label }}</td>
+                  <td>
+                     <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="deleteOption(option)"><span class="glyphicon glyphicon-trash"></span></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" (click)="saveResources()" class="btn btn-primary">Salvar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

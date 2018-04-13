@@ -1,0 +1,134 @@
+<hr>
+<h3>
+  Tipos de OS
+  <button type="button" (click)="addComplaintType()" class="btn btn-link pull-right"><span class="glyphicon glyphicon-plus"></span> Adicionar tipo</button>
+</h3>
+<div class="row mb-40 mt-40">
+  <div class="col-sm-12 col-md-12">
+    <table class="table table-striped table-condensed">
+      <thead>
+        <tr>
+          <th class="w-40">Valor</th>
+          <th class="w-40">Label</th>
+          <th class="w-20"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr [hidden]="complaintTypes.length">
+          <td colspan="3" class="text-center">Lista vazia.</td>
+        </tr>
+        <tr *ngFor="let complaintType of complaintTypes">
+          <td>{{ complaintType.value }}</td>
+          <td>{{ complaintType.label }}</td>
+          <td>
+              <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="deleteComplaintType(complaintType)" title="Excluir" sgt2-tooltip><span class="glyphicon glyphicon-trash"></span></button>
+              <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="editComplaintType(complaintType)" title="Editar" sgt2-tooltip><span class="glyphicon glyphicon-edit"></span></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<hr>
+<h3>
+  Tipos de demandante
+  <button type="button" (click)="addDenunciatorType()" class="btn btn-link pull-right"><span class="glyphicon glyphicon-plus"></span> Adicionar tipo</button>
+</h3>
+<div class="row mb-40 mt-40">
+  <div class="col-sm-12 col-md-12">
+    <table class="table table-striped table-condensed">
+      <thead>
+        <tr>
+          <th class="w-40">Valor</th>
+          <th class="w-40">Label</th>
+          <th class="w-20"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr [hidden]="denunciatorTypes.length">
+          <td colspan="3" class="text-center">Lista vazia.</td>
+        </tr>
+        <tr *ngFor="let denunciatorType of denunciatorTypes">
+          <td>{{ denunciatorType.value }}</td>
+          <td>{{ denunciatorType.label }}</td>
+          <td>
+              <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="deleteDenunciatorType(denunciatorType)" title="Excluir" sgt2-tooltip><span class="glyphicon glyphicon-trash"></span></button>
+              <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="editDenunciatorType(denunciatorType)" title="Editar" sgt2-tooltip><span class="glyphicon glyphicon-edit"></span></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<hr>
+<h3>
+  Tipos de vistoria
+  <button type="button" (click)="addSurveyType()" class="btn btn-link pull-right"><span class="glyphicon glyphicon-plus"></span> Adicionar tipo</button>
+</h3>
+<div class="row mb-40 mt-40">
+  <div class="col-sm-12 col-md-12">
+    <table class="table table-striped table-condensed">
+      <thead>
+        <tr>
+          <th class="w-40">Valor</th>
+          <th class="w-40">Label</th>
+          <th class="w-20"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr [hidden]="surveyTypes.length">
+          <td colspan="3" class="text-center">Lista vazia.</td>
+        </tr>
+        <tr *ngFor="let surveyType of surveyTypes">
+          <td>{{ surveyType.value }}</td>
+          <td>{{ surveyType.label }}</td>
+          <td>
+              <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="deleteSurveyType(surveyType)" title="Excluir" sgt2-tooltip><span class="glyphicon glyphicon-trash"></span></button>
+              <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="editSurveyType(surveyType)" title="Editar" sgt2-tooltip><span class="glyphicon glyphicon-edit"></span></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<hr>
+<h3>
+  Tipos de intervenção
+  <button type="button" (click)="addInterventionType()" class="btn btn-link pull-right"><span class="glyphicon glyphicon-plus"></span> Adicionar tipo</button>
+</h3>
+<div class="row mb-40 mt-40">
+  <div class="col-sm-12 col-md-12">
+    <table class="table table-striped table-condensed">
+      <thead>
+        <tr>
+          <th class="w-40">Valor</th>
+          <th class="w-40">Label</th>
+          <th class="w-20"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr [hidden]="interventionTypes.length">
+          <td colspan="3" class="text-center">Lista vazia.</td>
+        </tr>
+        <tr *ngFor="let interventionType of interventionTypes">
+          <td>{{ interventionType.value }}</td>
+          <td>{{ interventionType.label }}</td>
+          <td>
+              <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="deleteInterventionType(interventionType)" title="Excluir" sgt2-tooltip><span class="glyphicon glyphicon-trash"></span></button>
+              <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="editInterventionType(interventionType)" title="Editar" sgt2-tooltip><span class="glyphicon glyphicon-edit"></span></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<hr>
+<sgt2-dynamic-form-config formTitle="Formulário para cadastro de OS" (fieldsChange)="onComplaintFieldsChange($event)" [fields]="complaintFields" [externalFields]="complaintExternalFields"></sgt2-dynamic-form-config>
+<hr>
+<sgt2-dynamic-form-config formTitle="Formulário para cadastro de vistoria" (fieldsChange)="onSurveyFieldsChange($event)" [fields]="surveyFields" [externalFields]="surveyExternalFields"></sgt2-dynamic-form-config>
+<hr>
+<sgt2-dynamic-form-config formTitle="Formulário para cadastro de intervenção" (fieldsChange)="onInterventionFieldsChange($event)" [fields]="interventionFields" [externalFields]="interventionExternalFields"></sgt2-dynamic-form-config>
+<sgt2-type-form formTitle="Tipo de OS" (optionSave)="onSaveComplaintType($event)" (optionUpdate)="onUpdateComplaintType($event)" #complaintTypeForm></sgt2-type-form>
+<sgt2-type-form formTitle="Tipo de Demandante" (optionSave)="onSaveDenunciatorType($event)" (optionUpdate)="onUpdateDenunciatorType($event)" #denunciatorTypeForm></sgt2-type-form>
+<sgt2-type-form formTitle="Tipo de vistoria" (optionSave)="onSaveSurveyType($event)" (optionUpdate)="onUpdateSurveyType($event)" #surveyTypeForm></sgt2-type-form>
+<sgt2-type-form formTitle="Tipo de intervenção" (optionSave)="onSaveInterventionType($event)" (optionUpdate)="onUpdateInterventionType($event)" #interventionTypeForm></sgt2-type-form>

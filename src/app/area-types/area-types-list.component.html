@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row mb-40">
+    <div class="col-sm-12 col-md-12">
+      <h2>
+        <a [routerLink]="['/companies']" class="btn btn-link"><img src="../../assets/images/back.png" alt="Voltar"></a>
+        <small>{{ company?.name }} <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></small> Tipos de área
+        <a routerLink="new" class="btn btn-outline-primary pull-right">
+	        <span class="glyphicon glyphicon-plus"></span><span class="link-label">Adicionar tipo de área</span>
+	    	</a>
+      </h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th class="w-20"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr [hidden]="loading || areaTypes.length">
+						<td colspan="2" class="text-center">Nenhum tipo de área encontrado.</td>
+					</tr>
+					<tr *ngFor="let areaType of areaTypes">
+						<td>{{ areaType.name }}</td>
+            <td class="w-20 text-right">
+							<span class="action">
+								<a [routerLink]="[areaType.id, 'metalayers']" title="Meta Camadas" sgt2-tooltip>
+									<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>									
+								</a>
+              </span>
+							<span class="action">
+								<a [routerLink]="[areaType.id, 'statuses']" title="Status" sgt2-tooltip>
+									<span class="glyphicon glyphicon-tags" aria-hidden="true"></span>									
+								</a>
+              </span>
+              <span class="action">
+                <a [routerLink]="[areaType.id, 'edit']" title="Editar" sgt2-tooltip>
+									<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+								</a>
+              </span>
+              <span class="action">
+                <a (click)="deleteAreaType(areaType)" class="cursor-pointer" title="Excluir" sgt2-tooltip>
+									<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+								</a>
+              </span>
+            </td>
+					</tr>
+				</tbody>
+			</table>
+    </div>
+  </div>
+</div>

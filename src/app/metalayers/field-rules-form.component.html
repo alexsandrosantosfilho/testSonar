@@ -1,0 +1,88 @@
+<div class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Configuração das regras</h4>
+      </div>
+      <div class="modal-body">
+        <form #rForm="ngForm" (submit)="onSubmit(rForm)" novalidate>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Campos</label>
+                <select [ngModel]="fieldName" (ngModelChange)="onFieldsChange($event)" name="fields" class="form-control" required>
+                  <option *ngFor="let field of fields" [value]="field.name">{{ field.alias }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Operador</label>
+                <select name="operator" [(ngModel)]="data.operator" class="form-control" required>
+                  <option value="!==">Diferente</option>
+                  <option value="===">Igual</option>
+                  <option value=">">Maior</option>
+                  <option value=">=">Maior ou igual</option>
+                  <option value="<">Menor</option>
+                  <option value="<=">Menor ou igual</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Valor</label>
+            <input type="text" name="expected" [(ngModel)]="data.expected" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Classe css</label>
+            <input type="text" name="class" [(ngModel)]="data.class" class="form-control" required />
+          </div>
+          <div [hidden]="!validated || rForm.valid" class="text-danger pb-10">
+            O preenchimento dos campos <strong>Campo, </strong><strong>Operador, </strong><strong>Valor</strong> e <strong>Classe css</strong> é obrigatório.
+          </div>
+          <div class="form-group">
+            <button *ngIf="!editingRule" type="submit" class="btn btn-sm btn-success">Adicionar</button>
+            <button *ngIf="editingRule" type="submit" class="btn btn-sm btn-success">Atualizar</button>
+          </div>
+        </form>
+        <hr>
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <table class="table table-striped table-condensed">
+              <thead>
+                <tr>
+                  <th class="w-30">Operador</th>
+                  <th class="w-30">Valor</th>
+                  <th class="w-30">Classe css</th>
+                  <th class="w-10"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr [hidden]="rules.length">
+						      <td colspan="4" class="text-center">Lista vazia.</td>
+					      </tr>
+                <tr *ngFor="let rule of rules">
+                  <td>{{ rule.operator }}</td>
+                  <td>{{ rule.expected }}</td> 
+                  <td>{{ rule.class }}</td> 
+                  <td>
+                     <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="deleteRule(rule)" title="Excluir" sgt2-tooltip><span class="glyphicon glyphicon-trash"></span></button>
+                     <button type="button" class="pull-right btn btn-link btn-sm pt-0 pb-0" (click)="editRule(rule)" title="Editar" sgt2-tooltip><span class="glyphicon glyphicon-edit"></span></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="submit" (click)="saveRules()" class="btn btn-primary">Salvar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

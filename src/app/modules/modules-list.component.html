@@ -1,0 +1,82 @@
+<!--<div class="container">
+  <div class="row mb-40">
+    <div class="col-sm-12 col-md-12">
+      <h2>
+        <a (click)="onCancel()" class="btn btn-link"><img src="../../assets/images/back.png" alt="Voltar"></a>
+        <small>{{ company?.name }} <i class="glyphicon glyphicon-chevron-right" aria-hidden="true"></i></small> Módulos
+      </h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="text-center" [hidden]="loading || modules.length">
+        Nenhum módulo encontrado.
+      </div>
+      <div *ngIf="modules.length">
+        <ul class="nav nav-tabs" role="tablist">
+          <li *ngFor="let module of modules; let isFirst = first" role="presentation" [class.active]="isFirst">
+            <a href="#{{ module.id }}" role="tab" data-toggle="tab">{{ module.label }}</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div *ngFor="let module of modules; let isFirst = first" [class.active]="isFirst" role="tabpanel" class="tab-pane" [id]="module.id">
+            <div class="mt-20 mb-20">
+              <form (submit)="onSubmit(module)" novalidate>
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" name="enabled" [(ngModel)]="module.enabled" /> Habilitado
+                  </label>
+                </div>
+                <div class="mt-40">
+                  <button type="submit" [disabled]="submiting" class="btn btn-primary mr-30">Salvar</button>
+                  <span [hidden]="!submiting" class="loading-32"></span>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>-->
+<div class="container">
+  <div class="row mb-40">
+    <div class="col-sm-12 col-md-12">
+      <h2>
+        <a (click)="onCancel()" class="btn btn-link"><img src="../../assets/images/back.png" alt="Voltar"></a>
+        <small>{{ company?.name }} <i class="glyphicon glyphicon-chevron-right" aria-hidden="true"></i></small> Módulos
+      </h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th class="w-50">Nome</th>
+            <th>Habilitado</th>
+						<th class="w-20"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr [hidden]="loading || modules.length">
+						<td colspan="3" class="text-center">Nenhum módulo encontrado.</td>
+					</tr>
+					<tr *ngFor="let module of modules">
+						<td>{{ module.label }}</td>
+            <td class="pl-25">
+							<span *ngIf="module.enabled" class="text-success glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</td>
+            <td class="text-right">
+              <span class="action">
+                <a [routerLink]="[module.id, 'edit']" title="Editar" sgt2-tooltip>
+									<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+								</a>
+              </span>
+            </td>
+					</tr>
+				</tbody>
+			</table>
+    </div>
+  </div>
+</div>
